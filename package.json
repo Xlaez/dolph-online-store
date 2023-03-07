@@ -1,0 +1,8 @@
+{
+  "name": "auth-service",
+  "version": "0.0.1",
+  "main": "src/index.js",
+  "repository": "https://github.com/StuMarket/auth-service.git",
+  "author": "Xlaez <utibeabasiekong2@gmail.com>",
+  "license": "BSD 2-Clause License"
+}
