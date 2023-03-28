@@ -1,92 +1,48 @@
 {
-    "compileOnSave": false,
-    "compilerOptions": {
-        "module": "commonjs",
-        "lib": [
-            "es2017",
-            "esnext.asynciterable"
-        ],
-        "declaration": true,
-        "removeComments": true,
-        "emitDecoratorMetadata": true,
-        "moduleResolution": "node",
-        "experimentalDecorators": true,
-        "allowSyntheticDefaultImports": true,
-        "target": "es2017",
-        "sourceMap": true,
-        "outDir": "dist",
-        "allowJs": true,
-        "baseUrl": "src",
-        "incremental": true,
-        "skipLibCheck": true,
-        "strictNullChecks": false,
-        "noImplicitAny": false,
-        "strictBindCallApply": false,
-        "forceConsistentCasingInFileNames": true,
-        "typeRoots": [
-            "node_modules/@types"
-        ],
-        "pretty": true,
-        "noFallthroughCasesInSwitch": false,
-        "esModuleInterop": true,
-        "resolveJsonModule": true,
-        "importHelpers": true,
-        "noEmit": false,
-    },
+  "compileOnSave": false,
+  "compilerOptions": {
+    "target": "es2017",
+    "lib": ["es2017", "esnext.asynciterable"],
+    "typeRoots": ["node_modules/@types"],
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "pretty": true,
+    "sourceMap": true,
+    "declaration": true,
+    "outDir": "dist",
+    "allowJs": true,
+    "noEmit": false,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "importHelpers": true,
+    "baseUrl": "src",
     "paths": {
-        "@/*": [
-            "*"
-        ],
-        "@configs/*": [
-            "configs/*"
-        ],
-        "@controllers/*": [
-            "controllers/*"
-        ],
-        "@database/*": [
-            "database/*"
-        ],
-        "@dtos/*": [
-            "dtos/*"
-        ],
-        "@exceptions/*": [
-            "exceptions/*"
-        ],
-        "@interfaces/*": [
-            "interfaces/*"
-        ],
-        "@middlewares/*": [
-            "middlewares/*"
-        ],
-        "@models/*": [
-            "models/*"
-        ],
-        "@routes/*": [
-            "routes/*"
-        ],
-        "@services/*": [
-            "services/*"
-        ],
-        "@utils/*": [
-            "utils/*"
-        ],
-        "@lib/*": [
-            "lib/*"
-        ]
-    },
-    "include": [
-        "src/",
-        ".env"
-    ],
-    "exclude": [
-        "node_modules",
-        "src/http",
-        "src/logs",
-        "src/tests"
-    ],
-    "ts-node": {
-        "compilerOptions": {
-            "module": "CommonJS"
-        }
+      "@/*": ["*"],
+      "@configs/*": ["configs/*"],
+      "@controllers/*": ["controllers/*"],
+      "@database/*": ["database/*"],
+      "@dtos/*": ["dtos/*"],
+      "@exceptions/*": ["exceptions/*"],
+      "@interfaces/*": ["interfaces/*"],
+      "@middlewares/*": ["middlewares/*"],
+      "@models/*": ["models/*"],
+      "@routes/*": ["routes/*"],
+      "@services/*": ["services/*"],
+      "@utils/*": ["utils/*"],
+      "@lib/*": ["lib/*"],
+      "@servers/*": ["servers/*"],
+      "@constants/*": ["constants/*"]
     }
+  },
+  "include": ["src/", ".env"],
+  "exclude": ["node_modules", "src/http", "src/logs", "src/tests"],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  }
 }
