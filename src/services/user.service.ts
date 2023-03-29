@@ -53,6 +53,10 @@ class UserService {
     user.password = '';
     return user;
   };
+
+  public updateUserByCustom = async (query: {}, data: {}) => {
+    return this.model.updateOne(query, data);
+  };
 }
 
 export default UserService;

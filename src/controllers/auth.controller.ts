@@ -1,6 +1,7 @@
 import AuthService from '@/services/auth.service';
+import TokenService from '@/services/token.service';
 import UserService from '@/services/user.service';
-import { catchAsync, httpStatus } from '@dolphjs/core';
+import { AppRes, catchAsync, httpStatus } from '@dolphjs/core';
 import { Request, Response } from 'express';
 
 class AuthController {
@@ -12,9 +13,28 @@ class AuthController {
     this.userService = new UserService();
   }
 
+  /**
+   * TODO: send digits in an email
+   */
   public registerUserByEmail = catchAsync(async (req: Request, res: Response) => {
     const user = await this.userService.createUser({ ...req.body });
-    res.status(httpStatus.CREATED).json({ data: user });
+    const digits = await this.authService.getVerificationCode(user._id);
+    res.status(httpStatus.CREATED).json({ data: user, digits });
+  });
+
+  public loginWithEmail = catchAsync(async (req: Request, res: Response) => {
+    const { email, password } = req.body;
+    const user = await this.authService.loginWithEmail(email, password);
+    const tokens = await TokenService.generateAuthTokens(user);
+    res.status(httpStatus.OK).json({ data: { user, tokens } });
+  });
+
+  public verifyAccount = catchAsync(async (req: Request, res: Response) => {
+    const { digits } = req.body;
+    const userId = await this.authService.verifyAccount(digits);
+    if (!this.userService.getUserById(userId)) throw new AppRes(httpStatus.BAD_REQUEST, 'code has expired or is wrong');
+    await this.userService.updateUserByCustom({ _id: userId }, { isAccountValid: true });
+    res.status(httpStatus.OK).json({ msg: 'sucess' });
   });
 }
 

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { createClient } from 'redis';
 import config from '@/configs';
 import { RedisCommandArgument } from '@redis/client/dist/lib/commands';
@@ -20,7 +21,7 @@ async function connection() {
  * @param value the data to be stored
  * @param expiresIn time to delete the value in seconds default is 24hours
  */
-async function addToRedis(key: RedisCommandArgument, value: RedisCommandArgument | number, expiresIn = 60 * 60 * 24) {
+export async function addToRedis(key: RedisCommandArgument, value: RedisCommandArgument | number, expiresIn = 60 * 60 * 24) {
   const redisClient = await connection();
   try {
     return await redisClient.set(key, value, 'Ex', expiresIn);
@@ -35,7 +36,11 @@ async function addToRedis(key: RedisCommandArgument, value: RedisCommandArgument
  * @param value the data to be stored
  * @param expiresIn time to delete the value in seconds default is 24hours
  */
-async function addToRedisForCaching(key: RedisCommandArgument, value: RedisCommandArgument | number, expiresIn = 360) {
+export async function addToRedisForCaching(
+  key: RedisCommandArgument,
+  value: RedisCommandArgument | number,
+  expiresIn = 360
+) {
   const redisClient = await connection();
   try {
     return await redisClient.setEx(key, expiresIn, value);
@@ -48,7 +53,7 @@ async function addToRedisForCaching(key: RedisCommandArgument, value: RedisComma
  * delete data on  redis store.
  * @param key the key to use for storing the data
  */
-async function delInRedis(key: RedisCommandArgument) {
+export async function delInRedis(key: RedisCommandArgument) {
   const redisClient = await connection();
   try {
     await redisClient.del(key);
@@ -62,7 +67,7 @@ async function delInRedis(key: RedisCommandArgument) {
  * Gets data back from our redis store
  * @param key the key used to store the value
  */
-async function getFromRedis(key: RedisCommandArgument) {
+export async function getFromRedis(key: RedisCommandArgument) {
   try {
     const redisClient = await connection();
     const value = await redisClient.get(key);

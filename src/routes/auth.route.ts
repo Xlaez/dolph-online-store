@@ -16,6 +16,8 @@ class AuthRoute {
 
   initializeRouter() {
     this.router.post(`${this.path}/register`, validate(authValidator.registration), this.controller.registerUserByEmail);
+    this.router.post(`${this.path}/login`, validate(authValidator.login), this.controller.loginWithEmail);
+    this.router.post(`${this.path}/verify-account`, validate(authValidator.verifyAccount), this.controller.verifyAccount);
   }
 }
 
