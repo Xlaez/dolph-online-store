@@ -1,17 +1,20 @@
 import AuthService from '@/services/auth.service';
+import UserService from '@/services/user.service';
 import { catchAsync, httpStatus } from '@dolphjs/core';
 import { Request, Response } from 'express';
 
 class AuthController {
-  protected userService: AuthService;
+  protected authService: AuthService;
+  protected userService: UserService;
 
   constructor() {
-    this.userService = new AuthService();
+    this.authService = new AuthService();
+    this.userService = new UserService();
   }
 
   public registerUserByEmail = catchAsync(async (req: Request, res: Response) => {
-    const result = await this.userService.createUser();
-    res.status(httpStatus.CREATED).json(result);
+    const user = await this.userService.createUser({ ...req.body });
+    res.status(httpStatus.CREATED).json({ data: user });
   });
 }
 

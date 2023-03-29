@@ -43,13 +43,11 @@ const schema = new Schema(
     },
     school: {
       type: String,
-      required: true,
       enum: [],
     },
     role: {
       type: String,
       enum: ['buyer', 'seller', 'both'],
-      required: true,
     },
     phoneNumber: {
       type: String,

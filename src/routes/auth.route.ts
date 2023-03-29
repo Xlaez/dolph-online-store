@@ -1,4 +1,6 @@
 import AuthController from '@/controllers/auth.controller';
+import validate from '@/middlewares/validate.middleware';
+import authValidator from '@/validations/auth.validation';
 import { Router } from '@dolphjs/core';
 
 class AuthRoute {
@@ -13,7 +15,7 @@ class AuthRoute {
   }
 
   initializeRouter() {
-    this.router.post(`${this.path}/register`, this.controller.registerUserByEmail);
+    this.router.post(`${this.path}/register`, validate(authValidator.registration), this.controller.registerUserByEmail);
   }
 }
 
