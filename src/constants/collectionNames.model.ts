@@ -3,6 +3,7 @@ const NAMES = {
   PRODUCTS: 'products',
   ORDERS: 'orders',
   STORES: 'stores',
+  TOKENS: 'tokens',
 };
 
 export default NAMES;
