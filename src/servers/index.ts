@@ -9,3 +9,6 @@ const middlewares = [xss(), helmet()];
 const mongoConfig = { options: config.mongoose.options, url: config.mongoose.url };
 const dolph = new Dolph(routes, '8181', 'development', mongoConfig, middlewares);
 dolph.listen();
+
+const dolphServer = dolph.app;
+export default dolphServer;

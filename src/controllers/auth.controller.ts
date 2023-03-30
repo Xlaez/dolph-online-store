@@ -19,7 +19,8 @@ class AuthController {
   public registerUserByEmail = catchAsync(async (req: Request, res: Response) => {
     const user = await this.userService.createUser({ ...req.body });
     const digits = await this.authService.getVerificationCode(user._id);
-    res.status(httpStatus.CREATED).json({ data: user, digits });
+    const data = { user, digits };
+    res.status(httpStatus.CREATED).json(data);
   });
 
   public loginWithEmail = catchAsync(async (req: Request, res: Response) => {

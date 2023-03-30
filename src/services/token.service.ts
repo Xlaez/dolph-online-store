@@ -5,9 +5,10 @@ import { IUser } from '@/models/users/users.models';
 import { AppRes, httpStatus } from '@dolphjs/core';
 import { sign, verify } from 'jsonwebtoken';
 import moment from 'moment';
+import { Types } from 'mongoose';
 
 class TokenService {
-  static generateToken = (userId: string, type: string, expires: moment.Moment = config.jwt.secret) => {
+  static generateToken = (userId: string | Types.ObjectId, type: string, expires: moment.Moment = config.jwt.secret) => {
     const payload = {
       sub: userId,
       iat: moment().unix(),
