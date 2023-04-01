@@ -18,6 +18,13 @@ class AuthRoute {
     this.router.post(`${this.path}/register`, validate(authValidator.registration), this.controller.registerUserByEmail);
     this.router.post(`${this.path}/login`, validate(authValidator.login), this.controller.loginWithEmail);
     this.router.post(`${this.path}/verify-account`, validate(authValidator.verifyAccount), this.controller.verifyAccount);
+    this.router.post(
+      `${this.path}/send-verification-code`,
+      validate(authValidator.sendVerificationCode),
+      this.controller.resendVerificationCode
+    );
+    this.router.post(`${this.path}/logout`, validate(authValidator.logout), this.controller.logout);
+    this.router.post(`${this.path}/refresh-token`, validate(authValidator.logout), this.controller.refreshTokens);
   }
 }
 

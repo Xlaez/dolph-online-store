@@ -26,7 +26,7 @@ class TokenService {
     blacklisted = false
   ) => {
     //@ts-expect-error
-    return Tokens.findOne({ token, user, expires: expires.toDate(), type, blacklisted });
+    return Tokens.create({ token, user, expires: expires.toDate(), type, blacklisted });
   };
 
   static verifyToken = async (token: string, type: string) => {

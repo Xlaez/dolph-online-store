@@ -1,7 +1,7 @@
 import setupTestDB from '../utils/setupTestDB';
 import faker from 'faker';
 import request from 'supertest';
-import dolph from '../../src/servers';
+import { dolph, dolphServer } from '../../src/servers';
 import { httpStatus } from '@dolphjs/core';
 import User, { IUser } from '../../src/models/users/users.models';
 import { Types } from 'mongoose';
@@ -22,7 +22,8 @@ describe('Auth route', () => {
     });
 
     test('should return 201 response with user data and digits', async () => {
-      const res = await request(dolph).post('/api/v1/auth/register').send(newUser).expect(httpStatus.CREATED);
+      const res = await request(dolphServer).post('/api/v1/auth/register').send(newUser).expect(httpStatus.CREATED);
+      dolph.listen().close();
 
       expect(res.body.user.password).toBeUndefined();
       expect(res.body.user).toEqual({
@@ -45,19 +46,23 @@ describe('Auth route', () => {
 
     test('should return 400 error if email is invalid', async () => {
       newUser.email = 'invalidEmail';
-      await request(dolph).post('/api/v1/auth/register').send(newUser).expect(httpStatus.BAD_REQUEST);
+      await request(dolphServer).post('/api/v1/auth/register').send(newUser).expect(httpStatus.BAD_REQUEST);
+      dolph.listen().close();
     });
 
     test('should return 400 error if password length is less than 8 characters', async () => {
       newUser.password = 'pass';
-      await request(dolph).post('/api/v1/auth/register').send(newUser).expect(httpStatus.BAD_REQUEST);
+      await request(dolphServer).post('/api/v1/auth/register').send(newUser).expect(httpStatus.BAD_REQUEST);
+      dolph.listen().close();
     });
 
     test('should return 400 error if password does not contain both letters and numbers', async () => {
       newUser.password = 'password';
-      await request(dolph).post('/api/v1/auth/register').send(newUser).expect(httpStatus.BAD_REQUEST);
+      await request(dolphServer).post('/api/v1/auth/register').send(newUser).expect(httpStatus.BAD_REQUEST);
+      dolph.listen().close();
       newUser.password = '11111111111';
-      await request(dolph).post('/api/v1/auth/register').send(newUser).expect(httpStatus.BAD_REQUEST);
+      await request(dolphServer).post('/api/v1/auth/register').send(newUser).expect(httpStatus.BAD_REQUEST);
+      dolph.listen().close();
     });
   });
 
@@ -70,7 +75,8 @@ describe('Auth route', () => {
         password: userOne.unHashedPassword,
       };
 
-      const res = await request(dolph).post('/api/v1/auth/login').send(loginCredentials).expect(httpStatus.OK);
+      const res = await request(dolphServer).post('/api/v1/auth/login').send(loginCredentials).expect(httpStatus.OK);
+      dolph.listen().close();
       expect(res.body.data.user).toEqual({
         id: expect.anything(),
         firstname: userOne.firstname,
@@ -92,8 +98,11 @@ describe('Auth route', () => {
         password: userTwo.unHashedPassword,
       };
 
-      const res = await request(dolph).post('/api/v1/auth/login').send(loginCredentials).expect(httpStatus.UNAUTHORIZED);
-
+      const res = await request(dolphServer)
+        .post('/api/v1/auth/login')
+        .send(loginCredentials)
+        .expect(httpStatus.UNAUTHORIZED);
+      dolph.listen().close();
       expect(res.body).toEqual({ code: httpStatus.UNAUTHORIZED, message: 'incorrect email or password' });
     });
 
@@ -105,7 +114,11 @@ describe('Auth route', () => {
         password: 'wrongPassword1',
       };
 
-      const res = await request(dolph).post('/api/v1/auth/login').send(loginCredentials).expect(httpStatus.UNAUTHORIZED);
+      const res = await request(dolphServer)
+        .post('/api/v1/auth/login')
+        .send(loginCredentials)
+        .expect(httpStatus.UNAUTHORIZED);
+      dolph.listen().close();
       expect(res.body).toEqual({ code: httpStatus.UNAUTHORIZED, message: 'incorrect email or password' });
     });
   });
@@ -121,15 +134,18 @@ describe('Auth route', () => {
       };
     });
     test('should return 200 status code', async () => {
-      const res = await request(dolph).post('/api/v1/auth/register').send(newUser).expect(httpStatus.CREATED);
+      const res = await request(dolphServer).post('/api/v1/auth/register').send(newUser).expect(httpStatus.CREATED);
+      dolph.listen().close();
       expect(res.body.digits).toBeDefined();
       const digits = res.body.digits.toString();
-      const res2 = await request(dolph).post('/api/v1/auth/verify-account').send({ digits }).expect(httpStatus.OK);
+      const res2 = await request(dolphServer).post('/api/v1/auth/verify-account').send({ digits }).expect(httpStatus.OK);
+      dolph.listen().close();
       expect(res2.body).toEqual({ msg: 'success' });
     });
 
     test('should return 400 status code when digits is wrong', async () => {
-      const res = await request(dolph).post('/api/v1/auth/verify-account').send({ digits: '121212' });
+      const res = await request(dolphServer).post('/api/v1/auth/verify-account').send({ digits: '121212' });
+      dolph.listen().close();
       expect(res.body).toEqual({ code: httpStatus.NOT_FOUND, message: 'request for verification code again' });
     });
   });

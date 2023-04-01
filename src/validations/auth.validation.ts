@@ -23,8 +23,22 @@ const verifyAccount = {
   }),
 };
 
+const sendVerificationCode = {
+  body: Joi.object().keys({
+    email: Joi.string().email().required().trim(),
+  }),
+};
+
+const logout = {
+  body: Joi.object().keys({
+    refreshToken: Joi.string().required().trim(),
+  }),
+};
+
 export default {
   registration,
   login,
+  logout,
   verifyAccount,
+  sendVerificationCode,
 };

@@ -17,6 +17,9 @@ const envVariablesSchema = Joi.object()
     CLOUDINARY_NAME: Joi.string().description('cloudinary account name'),
     CLOUDINARY_API_KEY: Joi.string().description('cloudinary api key'),
     CLOUDINARY_API_SECRET: Joi.string().description('cloudinary user secret'),
+    EMAIL_FROM: Joi.string().description('applications email'),
+    APP_PASSWORD: Joi.string().description('application gmail password'),
+    APP_MAIL: Joi.string().description('applications smtp gmail'),
   })
   .unknown();
 
@@ -44,6 +47,11 @@ const mongoConfig = {
     name: envVars.CLOUDINARY_NAME,
     key: envVars.CLOUDINARY_API_KEY,
     secret: envVars.CLOUDINARY_API_SECRET,
+  },
+  email: {
+    from: envVars.EMAIL_FROM,
+    apps: envVars.APP_MAIL,
+    password: envVars.APP_PASSWORD,
   },
 };
 
