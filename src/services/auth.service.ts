@@ -58,6 +58,14 @@ class AuthService {
       throw new AppRes(httpStatus.UNAUTHORIZED, 'please authenticate');
     }
   };
+
+  /**
+   * Do not use `this.getVerificationCode` directly with the controller
+   * incase there is an update to be made in the future
+   */
+  public forgetPassword = async (email: string) => {
+    return this.getVerificationCode(email);
+  };
 }
 
 export default AuthService;

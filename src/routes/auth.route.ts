@@ -25,6 +25,8 @@ class AuthRoute {
     );
     this.router.post(`${this.path}/logout`, validate(authValidator.logout), this.controller.logout);
     this.router.post(`${this.path}/refresh-token`, validate(authValidator.logout), this.controller.refreshTokens);
+    this.router.post(`${this.path}/forget-password`, validate(authValidator.sendVerificationCode));
+    this.router.patch(`${this.path}/reset-password`, validate(authValidator.resetPassword), this.controller.resetPassword);
   }
 }
 
