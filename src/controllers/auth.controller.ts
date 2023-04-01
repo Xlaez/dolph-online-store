@@ -35,7 +35,7 @@ class AuthController {
     const userId = await this.authService.verifyAccount(digits);
     if (!this.userService.getUserById(userId)) throw new AppRes(httpStatus.BAD_REQUEST, 'code has expired or is wrong');
     await this.userService.updateUserByCustom({ _id: userId }, { isAccountValid: true });
-    res.status(httpStatus.OK).json({ msg: 'sucess' });
+    res.status(httpStatus.OK).json({ msg: 'success' });
   });
 }
 

@@ -3,7 +3,8 @@ import validator from 'validator';
 import { mongoosePagination, Pagination } from 'mongoose-paginate-ts';
 import { compare, hash } from 'bcryptjs';
 import { NextFunction } from 'express';
-import NAMES from 'constants/collectionNames.model';
+import toJSON from '../plugins/toJson.model';
+import NAMES from '@/constants/collectionNames.model';
 
 export interface IUser extends Document {
   firstname: string;
@@ -109,6 +110,7 @@ const schema = new Schema(
 );
 
 schema.plugin(mongoosePagination);
+schema.plugin(toJSON);
 
 schema.statics.isEmailTaken = async function (email: string, excludeUserId: string) {
   const user = await this.findOne({ email, _id: { $ne: excludeUserId } });

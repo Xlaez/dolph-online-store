@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import faker from 'faker';
 import User, { IUser } from '../../src/models/users/users.models';
+import { hashSync } from 'bcryptjs';
 
 const password = 'Randompassword123';
 
@@ -9,7 +10,8 @@ const userOne = {
   firstname: faker.name.findName(),
   lastname: faker.name.findName(),
   email: faker.internet.email().toLowerCase(),
-  password,
+  password: hashSync(password, 11),
+  unHashedPassword: password,
 };
 
 const userTwo = {
@@ -17,7 +19,8 @@ const userTwo = {
   firstname: faker.name.findName(),
   lastname: faker.name.findName(),
   email: faker.internet.email().toLowerCase(),
-  password,
+  password: hashSync(password, 11),
+  unHashedPassword: password,
 };
 
 const insertUsers = async (users: IUser[]) => {

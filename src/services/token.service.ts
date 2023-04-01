@@ -48,7 +48,7 @@ class TokenService {
     await this.saveToken(refreshToken, user.id, refreshTokenExpires, tokenTypes.refresh);
 
     return {
-      acess: {
+      access: {
         token: accessToken,
         expires: accessTokenExpires,
       },

@@ -13,7 +13,6 @@ class UserController {
   public getUserProfile = catchAsync(async (req: Request, res: Response) => {
     const user: IUser | null = await this.userService.getUserById(req.params.userId);
     if (!user) throw new AppRes(httpStatus.NOT_FOUND, 'user not found');
-    user.password = null;
     res.status(httpStatus.OK).json({ data: user });
   });
 }
