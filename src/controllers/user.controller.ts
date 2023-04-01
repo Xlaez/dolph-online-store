@@ -17,6 +17,13 @@ class UserController {
     res.status(httpStatus.OK).json({ data: user });
   });
 
+  public queryUsers = catchAsync(async (req: Request, res: Response) => {
+    const { limit, page, location, school } = req.query;
+    const users = await this.userService.queryUsers(+limit, +page, { location, school });
+    if (!users.docs?.length) throw new AppRes(httpStatus.NOT_FOUND, 'resource not found');
+    res.status(httpStatus.OK).json({ data: users });
+  });
+
   public updatePassword = catchAsync(async (req: Request, res: Response) => {
     //@ts-ignore
     const user = await this.userService.getUserById(req.user.id);

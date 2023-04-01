@@ -17,6 +17,7 @@ class UserRoute {
 
   initializeRouter() {
     this.router.get(`${this.path}/:userId`, this.controller.getUserProfile);
+    this.router.get(`${this.path}`, this.controller.queryUsers);
     this.router.patch(
       `${this.path}/update-password`,
       validateAcc,
