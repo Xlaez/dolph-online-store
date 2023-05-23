@@ -1,4 +1,5 @@
 import { messages } from '@/constants/messages.constant';
+import { getFromRedis } from '@/libs/redis.lib';
 import AuthService from '@/services/auth.service';
 import MailSender from '@/services/email.service';
 import TokenService from '@/services/token.service';
@@ -66,7 +67,25 @@ class AuthController {
     res.status(httpStatus.OK).json({ ...tokens });
   });
 
-  public forgetPassword = catchAsync(async (req: Request, res: Response) => {});
+  public forgetPassword = catchAsync(async (req: Request, res: Response) => {
+    const user = await this.userService.getUserByEmail(req.body.email);
+    if (!user) throw new AppRes(httpStatus.UNAUTHORIZED, 'user does not exist, try signing up');
+    const digits = await this.authService.forgetPassword(req.body.email);
+    const mailSender = new MailSender(user.email, messages.resetPassword, {
+      name: `${user.firstname} ${user.lastname}`,
+      digits: digits.toString(),
+      link: 'https://',
+    });
+    await mailSender.sendMail();
+    res.status(httpStatus.OK).json({ msg: 'success' });
+  });
+
+  public resetPassword = catchAsync(async (req: Request, res: Response) => {
+    const userEmail = await getFromRedis(req.body.code);
+    if (!userEmail) throw new AppRes(httpStatus.UNAUTHORIZED, 'code has expired or is incorrect');
+    await this.userService.updateUserByCustom({ email: userEmail }, { password: req.body.password });
+    res.status(httpStatus.OK).json({ msg: 'success' });
+  });
 }
 
 export default AuthController;

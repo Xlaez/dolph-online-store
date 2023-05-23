@@ -35,10 +35,18 @@ const logout = {
   }),
 };
 
+const resetPassword = {
+  body: Joi.object().keys({
+    code: Joi.string().required().trim(),
+    password: Joi.string().required().custom(customValidator.password),
+  }),
+};
+
 export default {
   registration,
   login,
   logout,
   verifyAccount,
+  resetPassword,
   sendVerificationCode,
 };
